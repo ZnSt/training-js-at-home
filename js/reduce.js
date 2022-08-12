@@ -1,22 +1,24 @@
 const numbers = [5, 10, 15, 20, 25, 30];
 
 const total = numbers.reduce((acc, number) => {
-  //   console.log("acc: ", acc);
-  //   console.log("number: ", number);
+  // console.log("acc: ", acc);
+  // console.log("number: ", number);
+
   return acc + number;
 }, 0);
+
 // console.log(total);
 
-const salary = {
-  Mango: 120,
-  Ajax: 200,
-  Huston: 250,
-};
+const cart = [
+  { label: "Apples", price: 100, quantity: 2 },
+  { label: "Bananas", price: 120, quantity: 3 },
+  { label: "Lemons", price: 70, quantity: 4 },
+];
 
-const totalSalary = Object.values(salary).reduce((acc, value) => {
-  return acc + value;
-});
-// console.log(totalSalary);
+const totalAmount = cart.reduce((total, { price, quantity }) => {
+  return total + price * quantity;
+}, 0);
+// console.log(totalAmount);
 
 const players = [
   { id: "player-1", name: "Mango", timePlayed: 110, points: 54, online: true },
@@ -27,35 +29,31 @@ const players = [
 ];
 // console.table(players);
 
-const totalTimePlayer = players.reduce((totalTime, player) => {
-  return totalTime + player.timePlayed;
-}, 0);
-// console.log("totalSum:", totalTimePlayer);
-
-const cart = [
-  { label: "Apple", price: 100, quantity: 10 },
-  { label: "Orange", price: 200, quantity: 7 },
-  { label: "Grape", price: 250, quantity: 5 },
-];
-
-const totalAmount = cart.reduce((total, item) => {
-  return total + item.price * item.quantity;
-}, 0);
-
-// console.log(totalAmount);
+const totalTimePlayed = players.reduce((totalTime, player) => totalTime + player.timePlayed, 0);
+// console.log(totalTimePlayed);
 
 const tweets = [
-  { id: "000", likes: 5, tags: ["js", "css"] },
-  { id: "001", likes: 10, tags: ["js", "html"] },
-  { id: "002", likes: 20, tags: ["js", "css", "node.js"] },
-  { id: "003", likes: 13, tags: ["js", "css", "react"] },
-  { id: "004", likes: 15, tags: ["react", "css"] },
+  { id: "000", likes: 5, tags: ["js", "node.js"] },
+  { id: "001", likes: 2, tags: ["html", "css"] },
+  { id: "002", likes: 17, tags: ["html", "js", "node.js"] },
+  { id: "003", likes: 8, tags: ["css", "react"] },
+  { id: "004", likes: 0, tags: ["js", "node.js", "react"] },
 ];
 
-const allTags = tweets.reduce((acc, tweet) => [...acc, ...tweet.tags], []);
-console.log(allTags);
+const allTags = tweets.reduce((acc, tweet) => {
+  // мутабельность параметров:
+  // acc.push(...tweet.tags);
+  // return acc;
 
-const resultTags = allTags.reduce((acc, tag) => {
+  // без мутабельности параметров(для линтеров):
+  return [...acc, ...tweet.tags];
+}, []);
+// console.log(allTags);
+
+const tagsStats = allTags.reduce((acc, tag) => {
+  // console.log(acc);
+  //МУТАБЕЛЬНОСТЬ:
+
   // if (acc[tag]) {
   //   acc[tag] += 1;
 
@@ -65,10 +63,43 @@ const resultTags = allTags.reduce((acc, tag) => {
 
   // return acc;
 
+  //НЕМУТАБЕЛЬНОСТЬ:
+
+  // if (acc[tag]) {
+  //   return {
+  //     ...acc,
+  //     [tag]: acc[tag] + 1,
+  //   };
+  // }
+  // return {
+  //   ...acc,
+  //   [tag]: 1,
+  // };
+
+  //ТЕРНАРНИК:
+
   return {
     ...acc,
     [tag]: acc[tag] ? acc[tag] + 1 : 1,
   };
 }, {});
 
-console.log(resultTags);
+// console.log(tagsStats);
+
+const numberSum = [5, 10, 15, 25, 30];
+const result = numberSum.reduce((acc, number) => {
+  // console.log("number: ", number);
+  // console.log("acc: ", acc);
+  return acc + number;
+}, 100);
+
+const salary = {
+  mango: 100,
+  kiwi: 120,
+  ajax: 100,
+};
+
+const totalSalary = Object.values(salary).reduce((acc, sum) => {
+  return acc + sum;
+});
+console.log("totalSalary: ", totalSalary);

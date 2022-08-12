@@ -7,8 +7,10 @@ const players = [
 ];
 console.table(players);
 
+// EVERY
 const isAllOnline = players.every((player) => player.online);
 console.log("isAllOnline: ", isAllOnline);
 
-const isAllOffline = players.some((player) => player.online);
-console.log("isAllOffline: ", isAllOffline);
+// SOME
+const isAnyOnline = players.some((player) => player.online);
+console.log("isAnyOnline: ", isAnyOnline);
